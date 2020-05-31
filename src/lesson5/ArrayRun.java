@@ -33,7 +33,7 @@ public class ArrayRun extends Thread {
             arrW[i] = (float) (arr[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
         }
         System.currentTimeMillis();
-        System.out.println("Время выполнения без разделения массива - " + (System.currentTimeMillis() - a) + " миллисекунд\n " + "arr[0]: " + arrW [0] + "\narr[5000000]:" + arrW[5000000]);
+        System.out.println("Время выполнения без разделения массива - " + (System.currentTimeMillis() - a) + " миллисекунд\n " + "arr[0]: " + arrW [0] + "\narr[5000000]: " + arrW[5000000]);
     }
 
     public  void arrSplitting() {
@@ -49,13 +49,6 @@ public class ArrayRun extends Thread {
             arr1[i] = (float) (arr1[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
         }
     });
-
-        /*try {
-            t1.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-
         Thread t2 = new Thread(()-> {
 
             for (int i = 0; i < HALF; i++) {
@@ -65,6 +58,7 @@ public class ArrayRun extends Thread {
         t1.start();
         t2.start();
         try {
+            t1.join();
             t2.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -72,6 +66,6 @@ public class ArrayRun extends Thread {
         System.arraycopy(arr1, 0, arr, 0, HALF);
         System.arraycopy(arr2, 0, arr, HALF, HALF);
         System.currentTimeMillis();
-        System.out.println("Время выполнения c разделением массива - " + (System.currentTimeMillis() - a) + " миллисекунд\n " + "arr[0]: " + arr [0] + "\narr[5000000]:" + arr[5000000]);
+        System.out.println("Время выполнения c разделением массива - " + (System.currentTimeMillis() - a) + " миллисекунд\n " + "arr[0]: " + arr [0] + "\narr[5000000]: " + arr[5000000]);
     }
 }
