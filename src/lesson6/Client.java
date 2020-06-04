@@ -7,12 +7,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Client {
+
     Socket socket;
     DataInputStream in;
     DataOutputStream out;
 
     final String IP_ADDRESS = "localhost";
     final int PORT = 8189;
+
     public void client() {
         try {
             socket = new Socket(IP_ADDRESS, PORT);
@@ -44,13 +46,16 @@ public class Client {
             e.printStackTrace();
         }
     }
-    public void sendMsg() {
-        try {
-            String str = new String();
-            out.writeUTF (str);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
+    public void sendMsg() {
+        Thread t2 = new Thread(() -> {
+            try {
+                String str = new String();
+                out.writeUTF(str);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        t2.start();
+    }
 }

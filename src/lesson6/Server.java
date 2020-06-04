@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class EchoServer {
+public class Server {
     public static void main(String[] args) {
         ServerSocket server = null;
         Socket socket = null;
@@ -40,15 +40,10 @@ public class EchoServer {
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                    } finally {
-                        try {
-                            socket.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
             });
+            socket.close();
 
             t1.start();
             Thread t2 = new Thread(() -> {
