@@ -31,7 +31,6 @@ public class Server {
                     try {
                         while (true) {
                             String str = in.readUTF();
-
                             if (str.equals("/end")) {
                                 System.out.println("Клиент отключился");
                                 break;
@@ -43,11 +42,18 @@ public class Server {
                     }
                 }
             });
-            socket.close();
+            try {
+                socket.close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+
 
             t1.start();
             Thread t2 = new Thread(() -> {
-                String strS = new String();
+                Scanner sc = new Scanner(System.in);
+                String strS = sc.nextLine();
                 try {
                     out.writeUTF(strS);
                 } catch (IOException e) {
@@ -55,9 +61,12 @@ public class Server {
                 }
             });
             t2.start();
-
+            t1.join();
+            t2.join();
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
             try {
